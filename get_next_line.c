@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/12 17:59:02 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/13 14:01:20 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main()
     int n = 3;
     while (n > 0)
     {
-        char *s = get_next_line(fd);
-        printf("%s\n", s);
+        get_next_line(fd);
+        // printf("%s\n", s);
         n--;
     }
     return (0);

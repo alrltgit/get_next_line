@@ -6,43 +6,66 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/12 18:41:39 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/13 17:54:52 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-void	ft_strchr(const char *s, int c)
+char	*ft_strjoin(char *line, char *buff)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ;
-		s++;
-	}
-	if (*s == (char)c)
-		return ;
+	int i;
+    int j;
+
+    i = 0;
+    while (line[i])
+        i++;
+    j = 0;   
+    while (buff[j])
+    {
+        line[i + j] = buff[j];
+        j++;
+    }
+    line[i + j] = '\0';
+	return (line);
+}
+
+static char *ft_strcpy(char *dest, char *src)
+{
+    int i;
+
+    i = 0;
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    return (dest);
 }
 
 char *read_fd(int fd)
 {
     int nbytes;
     char *buff;
-    // static int count = 0;
+    static char *line = NULL;
 
     buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (buff == NULL)
         return (NULL);
     nbytes = read(fd, buff, BUFFER_SIZE);
-    ft_strchr(buff, '\n');
     if (nbytes <= 0)
-    {
-        free(buff);
-        return (NULL);
-    }
+        return (free(buff), NULL);
     buff[nbytes] = '\0';
-    // if (nbytes)
-    //     count++;
-    return (buff);
+    if (line == NULL)
+    {
+        line = malloc(sizeof(char) * (nbytes + 1));
+        if (line == NULL)
+            return (free(line), NULL);
+        line = ft_strcpy(line, buff);
+    }
+    else
+        line = ft_strjoin(line, buff);
+    // printf("%s\n", line);
+    return (line);
 }
