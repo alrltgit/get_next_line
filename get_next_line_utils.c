@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/15 22:33:04 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/15 23:36:27 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,4 @@ char	*ft_strdup(const char *s1)
 	}
 	ptr[i] = '\0';
 	return (ptr);
-}
-
-char *read_fd(char **line)
-{
-    char *current_line;
-    char *new_line;
-    char *temp_buff;
-    int line_len;
-
-    new_line = ft_strchr(*line, '\n');
-    if (new_line)
-    {
-        line_len = new_line - *line;
-        current_line = ft_strndup(*line, line_len);
-        temp_buff = ft_strdup(new_line + 1);
-        free(*line);
-        *line = temp_buff;
-    }
-    else
-    {
-        current_line = ft_strdup(*line);
-        free(*line);
-        *line = NULL;
-    }
-    return (current_line);
 }
