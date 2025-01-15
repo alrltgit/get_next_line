@@ -6,50 +6,75 @@
 /*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/14 16:31:21 by alraltse         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:44:15 by alraltse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char *ft_strjoin(char *line, char *buff)
+// char *ft_strjoin(char *line, char *buff)
+// {
+//     int i;
+//     int j;
+
+//     i = 0;
+//     while (line[i])
+//         i++;
+//     j = 0;
+//     while (buff[j])
+//     {
+//         line[i + j] = buff[j];
+//         j++;
+//     }
+//     line[i + j] = '\0';
+//     return (line);
+// }
+
+// char *ft_strcpy(char *dst, char *src)
+// {
+//     int i;
+
+//     i = 0;
+// 	while (src[i])
+// 	{
+//         dst[i] = src[i];
+// 		i++;
+// 	}
+//     dst[i] = '\0';
+//     return(dst);
+// }
+
+char	*ft_strdup(char *s1)
 {
-    int i;
-    int j;
+	static char *line;
+	char	*p;
+	int		i;
 
-    i = 0;
-    while (line[i])
-        i++;
-    j = 0;
-    while (buff[j])
-    {
-        line[i + j] = buff[j];
-        j++;
-    }
-    line[i + j] = '\0';
-    return (line);
-}
-
-char *ft_strcpy(char *dest, char *src)
-{
-    int i;
-
-    i = 0;
-    while (src[i])
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	i = 0;
+	while (s1[i])
+		i++;
+	line = malloc((i + 1) * sizeof(char));
+	if (line == NULL)
+		return (NULL);
+	p = line;
+	i = 0;
+	while (s1[i])
+	{
+		*p = s1[i];
+		p++;
+		i++;
+	}
+	*p = '\0';
+	return (line);
 }
 
 char *read_fd(int fd)
 {
     int nbytes;
+    int i;
     char *buff;
-    static char *line = NULL;
+    char *line;
 
     buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (buff == NULL)
@@ -57,16 +82,15 @@ char *read_fd(int fd)
     nbytes = read(fd, buff, BUFFER_SIZE);
     if (nbytes <= 0)
         return (free(buff), NULL);
-    buff[nbytes] = '\0';
+    line = malloc(sizeof(char) * (nbytes + 1));
     if (line == NULL)
-    {
-        line = malloc(sizeof(char) * (nbytes + 1));
-        if (line == NULL)
             return (free(line), NULL);
-        line = ft_strcpy(line, buff);
+    i = 0;
+    if (buff[nbytes] != '\n')
+    {
+        line = ft_strdup(buff);
+        return ("false");
     }
-    else
-        line = ft_strjoin(line, buff);
     free(buff);
-    return (line);
+    return ("true");
 }
