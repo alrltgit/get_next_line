@@ -3,94 +3,136 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/15 15:44:15 by alraltse         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:33:04 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-// char *ft_strjoin(char *line, char *buff)
-// {
-//     int i;
-//     int j;
-
-//     i = 0;
-//     while (line[i])
-//         i++;
-//     j = 0;
-//     while (buff[j])
-//     {
-//         line[i + j] = buff[j];
-//         j++;
-//     }
-//     line[i + j] = '\0';
-//     return (line);
-// }
-
-// char *ft_strcpy(char *dst, char *src)
-// {
-//     int i;
-
-//     i = 0;
-// 	while (src[i])
-// 	{
-//         dst[i] = src[i];
-// 		i++;
-// 	}
-//     dst[i] = '\0';
-//     return(dst);
-// }
-
-char	*ft_strdup(char *s1)
+static int ft_strlen(const char *s)
 {
-	static char *line;
-	char	*p;
+    int len = 0;
+
+    if (s == NULL)
+        return (0);
+    while (s[len] != '\0')
+        len++;
+    return (len);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+    if (s == NULL)
+        return (NULL);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+    if (*s == (char)c)
+			return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char    *joined;
+	int     s1_len;
+	int		s2_len;
+    int     i;
+    int     j;
+
+	s1_len = ft_strlen(s1);
+    s2_len = ft_strlen(s2);
+	joined = malloc((s1_len + s2_len + 1) * sizeof(char));
+	if (joined == NULL)
+		return (NULL);
+    i = 0;
+	while (i < s1_len)
+	{
+		joined[i] = s1[i];
+		i++;
+	}
+    j = 0;
+    while (j < s2_len)
+    {
+        joined[i + j] = s2[j];
+        j++;
+    }
+	joined[i + j] = '\0';
+    if (s1 != NULL)
+        free(s1);
+	return (joined);
+}
+
+char	*ft_strndup(const char *s1, int n)
+{
+	char	*ptr;
 	int		i;
 
+    if (s1 == NULL)
+        return (NULL);
 	i = 0;
-	while (s1[i])
-		i++;
-	line = malloc((i + 1) * sizeof(char));
-	if (line == NULL)
+	ptr = malloc(n + 1);
+	if (ptr == NULL)
 		return (NULL);
-	p = line;
+	i = 0;
+	while (s1[i] && i < n)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	int		i;
+
+    if (s1 == NULL)
+        return (NULL);
+	i = 0;
+	ptr = malloc(ft_strlen(s1) + 1);
+	if (ptr == NULL)
+		return (NULL);
 	i = 0;
 	while (s1[i])
 	{
-		*p = s1[i];
-		p++;
+		ptr[i] = s1[i];
 		i++;
 	}
-	*p = '\0';
-	return (line);
+	ptr[i] = '\0';
+	return (ptr);
 }
 
-char *read_fd(int fd)
+char *read_fd(char **line)
 {
-    int nbytes;
-    int i;
-    char *buff;
-    char *line;
+    char *current_line;
+    char *new_line;
+    char *temp_buff;
+    int line_len;
 
-    buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    if (buff == NULL)
-        return (NULL);
-    nbytes = read(fd, buff, BUFFER_SIZE);
-    if (nbytes <= 0)
-        return (free(buff), NULL);
-    line = malloc(sizeof(char) * (nbytes + 1));
-    if (line == NULL)
-            return (free(line), NULL);
-    i = 0;
-    if (buff[nbytes] != '\n')
+    new_line = ft_strchr(*line, '\n');
+    if (new_line)
     {
-        line = ft_strdup(buff);
-        return ("false");
+        line_len = new_line - *line;
+        current_line = ft_strndup(*line, line_len);
+        temp_buff = ft_strdup(new_line + 1);
+        free(*line);
+        *line = temp_buff;
     }
-    free(buff);
-    return ("true");
+    else
+    {
+        current_line = ft_strdup(*line);
+        free(*line);
+        *line = NULL;
+    }
+    return (current_line);
 }
