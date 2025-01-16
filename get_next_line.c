@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/16 10:08:09 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 11:02:25 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int main()
     // int fd = open("get_next_line.txt", O_RDONLY);
         // int fd = open("41_no_nl", O_RDONLY);
     // int fd = open("41_with_nl", O_RDONLY);
-    int fd = open("42_no_nl", O_RDONLY);
-    // int fd = open("42_with_nl", O_RDONLY);
+    // int fd = open("42_no_nl", O_RDONLY);
+    int fd = open("42_with_nl", O_RDONLY);
     // int fd = open("43_no_nl", O_RDONLY);
     // int fd = open("43_with_nl", O_RDONLY);
     // int fd = open("alternate_line_nl_no_nl", O_RDONLY);
