@@ -6,46 +6,43 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/16 09:48:38 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 10:07:06 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char *read_line(char **line)
+char *read_next_line(char *line)
 {
     char *current_line;
     char *new_line;
     char *temp_buff;
     int line_len;
 
-    new_line = ft_strchr(*line, '\n');
+    new_line = ft_strchr(line, '\n');
     if (new_line)
     {
-        line_len = new_line - *line;
-        current_line = ft_strndup(*line, line_len);
+        line_len = new_line - line;
+        current_line = ft_strndup(line, line_len);
         temp_buff = ft_strdup(new_line + 1);
-        free(*line);
-        *line = temp_buff;
+        free(line);
+        line = temp_buff;
     }
     else
     {
-        current_line = ft_strdup(*line);
-        free(*line);
-        *line = NULL;
+        current_line = ft_strdup(line);
+        free(line);
+        line = NULL;
     }
     return (current_line);
 }
 
-char *get_next_line(int fd)
+char *read_first_line(int fd, char *line)
 {
     char *buff;
-    static char *line;
     int nbytes;
 
-    if (fd < 0 || BUFFER_SIZE < 0)
-        return (NULL);
     buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (buff == NULL)
         return (NULL);
@@ -59,11 +56,25 @@ char *get_next_line(int fd)
         }
         buff[nbytes] = '\0';
         line = ft_strjoin(line, buff);
-        if (!*line)
+        if (!line)
             return (NULL);
     }
     free(buff);
-    return (read_line(&line));
+    return (line);
+}
+
+char *get_next_line(int fd)
+{
+    static char *line;
+    char *next_line;
+
+    if (fd < 0 || BUFFER_SIZE < 0)
+        return (NULL);
+    line = read_first_line(fd, line);
+    if (!line)
+        return (NULL);
+    next_line = read_next_line(line);
+    return (next_line);
 }
 
 int main()
