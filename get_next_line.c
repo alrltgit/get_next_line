@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/16 10:07:06 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 10:08:09 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char *read_first_line(int fd, char *line)
         nbytes = read(fd, buff, BUFFER_SIZE);
         if (nbytes == -1)
         {
+            free(line);
             free(buff);
             return (NULL);
         }
