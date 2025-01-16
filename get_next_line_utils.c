@@ -6,23 +6,12 @@
 /*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/16 16:00:57 by alraltse         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:49:21 by alraltse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-
-static int ft_strlen(const char *s)
-{
-    int len = 0;
-
-    if (s == NULL)
-        return (0);
-    while (s[len] != '\0')
-        len++;
-    return (len);
-}
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -49,8 +38,16 @@ char	*ft_strjoin(char *s1, char *s2)
     int     i;
     int     j;
 
-	s1_len = ft_strlen(s1);
-    s2_len = ft_strlen(s2);
+	s1_len = 0;
+	while (s1[s1_len])
+	{
+		s1_len++;
+	}
+    s2_len = 0;
+	while (s2[s2_len])
+	{
+		s2_len++;	
+	}
 	joined = malloc((s1_len + s2_len + 1) * sizeof(char));
 	if (joined == NULL)
 		return (NULL);
@@ -97,13 +94,16 @@ char	*ft_strdup(const char *s1)
 {
 	char	*ptr;
 	int		i;
+	int		s1_len;
 
     if (s1 == NULL)
     {
         return (NULL);
     }
-	i = 0;
-	ptr = malloc(ft_strlen(s1) + 1);
+	s1_len = 0;
+	while (s1[s1_len])
+		s1_len++;
+	ptr = malloc(s1_len + 1);
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
