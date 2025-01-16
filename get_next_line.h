@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:51 by apple             #+#    #+#             */
-/*   Updated: 2025/01/15 23:37:20 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 16:03:20 by alraltse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #endif
 
 char    *get_next_line(int );
-char    *read_line(char **);
+char    *read_first_line(int , char *);
+char    *read_next_line(char *);
 char	*ft_strchr(const char *, int );
 char	*ft_strndup(const char *, int );
 char	*ft_strdup(const char *);

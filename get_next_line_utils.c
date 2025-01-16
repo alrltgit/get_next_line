@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/15 23:36:27 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 16:00:57 by alraltse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static int ft_strlen(const char *s)
 char	*ft_strchr(const char *s, int c)
 {
     if (s == NULL)
+    {
         return (NULL);
+    }
 	while (*s)
 	{
 		if (*s == (char)c)
@@ -65,8 +67,6 @@ char	*ft_strjoin(char *s1, char *s2)
         j++;
     }
 	joined[i + j] = '\0';
-    if (s1 != NULL)
-        free(s1);
 	return (joined);
 }
 
@@ -76,7 +76,9 @@ char	*ft_strndup(const char *s1, int n)
 	int		i;
 
     if (s1 == NULL)
+    {
         return (NULL);
+    }
 	i = 0;
 	ptr = malloc(n + 1);
 	if (ptr == NULL)
@@ -97,7 +99,9 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
     if (s1 == NULL)
+    {
         return (NULL);
+    }
 	i = 0;
 	ptr = malloc(ft_strlen(s1) + 1);
 	if (ptr == NULL)
