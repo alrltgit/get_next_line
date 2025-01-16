@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/15 23:53:03 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/16 09:48:38 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char *read_line(char **line)
     {
         current_line = ft_strdup(*line);
         free(*line);
-        // *line = NULL;
+        *line = NULL;
     }
     return (current_line);
 }
@@ -62,42 +62,40 @@ char *get_next_line(int fd)
         if (!*line)
             return (NULL);
     }
-    if (ft_strchr(line, '\n'))
-        return ("\n");
     free(buff);
     return (read_line(&line));
 }
 
-// int main()
-// {
-//     char *s;
-//     // int fd = open("get_next_line.txt", O_RDONLY);
+int main()
+{
+    char *s;
+    // int fd = open("get_next_line.txt", O_RDONLY);
         // int fd = open("41_no_nl", O_RDONLY);
     // int fd = open("41_with_nl", O_RDONLY);
-//     // int fd = open("42_no_nl", O_RDONLY);
+    int fd = open("42_no_nl", O_RDONLY);
     // int fd = open("42_with_nl", O_RDONLY);
-//     // int fd = open("43_no_nl", O_RDONLY);
+    // int fd = open("43_no_nl", O_RDONLY);
     // int fd = open("43_with_nl", O_RDONLY);
-//     // int fd = open("alternate_line_nl_no_nl", O_RDONLY);
+    // int fd = open("alternate_line_nl_no_nl", O_RDONLY);
     // int fd = open("alternate_line_nl_with_nl", O_RDONLY);
-//     // int fd = open("big_line_no_nl", O_RDONLY);
+    // int fd = open("big_line_no_nl", O_RDONLY);
     // int fd = open("big_line_with_nl", O_RDONLY);
-//     // int fd = open("multiple_line_no_nl", O_RDONLY);
+    // int fd = open("multiple_line_no_nl", O_RDONLY);
     // int fd = open("multiple_line_with_nl", O_RDONLY);
     // int fd = open("multiple_nlx5", O_RDONLY);
     // int fd = open("nl", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (1);
-//     }
-//     int n = 3;
-//     while (n > 0)
-//     {
-//         s = get_next_line(fd);
-//         printf("%s\n", s);
-//         n--;
-//     }
-//     // free(s);
-//     return (0);
-// }
+    if (fd == -1)
+    {
+        perror("Error opening file");
+        return (1);
+    }
+    int n = 2;
+    while (n > 0)
+    {
+        s = get_next_line(fd);
+        printf("%s\n", s);
+        n--;
+    }
+    // free(s);
+    return (0);
+}
