@@ -3,39 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/16 16:01:16 by alraltse         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:31:16 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+
+char *free_line(char *line)
+{
+    int i;
+    int j;
+    char *temp_buff;
+    char *new_line_sign;
+
+    i = 0;
+    j = 0;
+    while (line[i] && line[i] != '\n')
+        i++;
+    if (!line[i])
+    {
+        free(line);
+        return (NULL);
+    }
+    // new_line_sign = ft_strchr(line, '\n');
+    temp_buff = malloc(sizeof(char) * i + 2);
+    if (!temp_buff)
+        return (NULL);
+    while (line[i])
+    {
+        i++;
+        temp_buff[j] = line[i];
+        j++;
+    }
+    temp_buff[j] = '\0';
+    free(line);
+    return (temp_buff);
+}
+
 char *read_next_line(char *line)
 {
-    char *current_line;
-    char *new_line;
-    char *temp_buff;
-    int line_len;
+    char *next_line;
+    int i;
 
-    new_line = ft_strchr(line, '\n');
-    if (new_line)
+    if (!line[0])
+        return (NULL);
+    while (line[i] && line[i] != '\n')
+        i++;
+    next_line = malloc(sizeof(char) * (i + 2));
+    i = 0;
+    while (line[i] && line[i] != '\n')
     {
-        line_len = new_line - line + 1;
-        current_line = ft_strndup(line, line_len);
-        temp_buff = ft_strdup(new_line + 1);
-        free(line);
-        line = temp_buff;
+        next_line[i] = line[i];
+        i++;
     }
-    else
-    {
-        current_line = ft_strdup(line);
-        free(line);
-        line = NULL;
-    }
-    return (current_line);
+    if (line[i] && line[i] == '\n')
+        line[i++] = '\n';
+    return (next_line);
 }
 
 char *read_first_line(int fd, char *line)
@@ -47,24 +85,23 @@ char *read_first_line(int fd, char *line)
     if (buff == NULL)
         return (NULL);
     nbytes = 1;
-    while (!ft_strchr(buff, '\n') && nbytes > 0)
+    while (!(ft_strchr(line, '\n')) && nbytes > 0)
     {
         nbytes = read(fd, buff, BUFFER_SIZE);
         if (nbytes == -1)
         {
+            free(line);
             free(buff);
             return (NULL);
         }
+        line = ft_strjoin(line, buff);
         if (nbytes == 0)
             break ;
-        line = ft_strjoin(line, buff);
-        // if there is a newline...
         if (!line)
             return (NULL);
-        printf("line: %s\n", line);
+        // printf("line: %s\n", line);
     }
     free(buff);
-    // printf("line: %s\n", line);
     return (line);
 }
 
@@ -76,7 +113,10 @@ char *get_next_line(int fd)
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
     line = read_first_line(fd, line);
+    if (!line)
+        return (NULL);
     next_line = read_next_line(line);
+    line = free_line(line);
     return (next_line);
 }
 
@@ -107,7 +147,7 @@ int main()
     while (n > 0)
     {
         s = get_next_line(fd);
-        // printf("%s\n", s);
+        printf("%s\n", s);
         // free(s);
         n--;
     }
