@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:51 by apple             #+#    #+#             */
-/*   Updated: 2025/01/18 15:37:48 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/18 17:24:07 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #endif
 
 char    *get_next_line(int );
-char    *read_line(int );
+char    *read_line(int , char *);
 char    *ft_strjoin(char *, char *);
 char	*ft_strchr(const char *, int );
 

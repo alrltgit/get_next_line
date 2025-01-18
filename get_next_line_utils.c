@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/18 15:37:29 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/18 17:34:35 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char *ft_strjoin(char *line, char *buffer)
             line_len++;
     }
     buff_len = 0;
-    while (buffer[buff_len] && buffer[buff_len] != '\n')
+    while (buffer[buff_len])
         buff_len++;
     ptr = malloc(sizeof(char) * (line_len + buff_len) + 1);
     if (!ptr)
@@ -49,20 +49,20 @@ char *ft_strjoin(char *line, char *buffer)
     i = 0;
     if (line)
     {
-        while (line[i])
+        while (i < line_len)
         {
             ptr[i] = line[i];
             i++;
         }
+        free(line);
     }
     j = 0;
-    while (buffer[j] && buffer[j] != '\n')
+    while (j < buff_len)
     {
-        ptr[i + j] = buffer[j];
+        ptr[i] = buffer[j];
         j++;
+        i++;
     }
-    ptr[i + j] = '\0';
-    if (line)
-        free(line);
+    ptr[i] = '\0';
     return (ptr);
 }
