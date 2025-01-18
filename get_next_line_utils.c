@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/18 17:34:35 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/19 00:13:06 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char *ft_strjoin(char *line, char *buffer)
             ptr[i] = line[i];
             i++;
         }
-        free(line);
+        // free(line);
     }
     j = 0;
     while (j < buff_len)

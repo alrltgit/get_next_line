@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/18 17:54:56 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/19 00:15:30 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,28 @@ char *ft_strdup(char *str)
     int i;
 
     i = 0;
-    if (str)
-    {
-        while (str[i])
+    if (!str)
+        return (NULL);
+    while (str[i])
             i++;
-    }
-    ptr = malloc(sizeof(char) * i + 1);
+    ptr = malloc(sizeof(char) * (i + 1));
     if (!ptr)
         return (NULL);
     i = 0;
-    if (str)
+    while (str[i])
     {
-        while (str[i])
-        {
-            ptr[i] = str[i];
-            i++;
-        }
-        ptr[i] = '\0';
+        ptr[i] = str[i];
+        i++;
     }
+    ptr[i] = '\0';
     return (ptr);
 }
 
 char *extract_line(char *remains)
 {
     char *line;
-    char *temp;
     char *newline_sign;
+    char *temp;
     int line_len;
     int i;
     
@@ -53,7 +49,7 @@ char *extract_line(char *remains)
     newline_sign = ft_strchr(remains, '\n');
     if (newline_sign)
     {
-        line_len = newline_sign - remains + 1;
+        line_len = newline_sign - remains;
         line = malloc(sizeof(char) * (line_len + 1));
         if (!line)
             return (NULL);
@@ -64,15 +60,14 @@ char *extract_line(char *remains)
             i++;
         }
         line[line_len] = '\0';
-        printf("line: %s\n", line);
         temp = ft_strdup(newline_sign + 1);
-        printf("temp: %s\n", temp);
         free(remains);
         remains = temp;
+        // printf("line: %s\n", line);
+        // printf("remains: %s\n", remains);
     }
     else
     {
-        // printf("in else\n");
         line = ft_strdup(remains);
         free(remains);
         remains = NULL;
@@ -99,7 +94,7 @@ char *read_line(int fd, char *remains)
             free(buffer);
             return (NULL);
         }
-        else if (nbytes_read == 0)
+        if (nbytes_read == 0)
             break ;
         buffer[nbytes_read] = '\0';
         remains = ft_strjoin(remains, buffer);
@@ -107,21 +102,25 @@ char *read_line(int fd, char *remains)
             break ;
     }
     free(buffer);
-    // printf("%s", remains);
     return (extract_line(remains));
+    // return (remains);
 }
 
 char *get_next_line(int fd)
 {
     static char *remains = NULL;
-    char *buffer;
+    char *line;
+    char *full_line;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    buffer = read_line(fd, remains);
-    if (!buffer)
+    remains = read_line(fd, remains);
+    if (!remains)
         return (NULL);
-    return(buffer);
+    // line = extract_line(remains);
+    // full_line = ft_strjoin(line, remains);
+    return (remains);
+    // return(line);
 }
 
 int main()
@@ -133,13 +132,13 @@ int main()
         perror("Error opening file");
         return (1);
     }
-    // int n = 2;
-    while (s = get_next_line(fd))
+    int n = 2;
+    while (n > 0)
     {
-        // s = get_next_line(fd);
+        s = get_next_line(fd);
         printf("%s\n", s);
         free(s);
-        // n--;
+        n--;
     }
     close(fd);
     return (0);
