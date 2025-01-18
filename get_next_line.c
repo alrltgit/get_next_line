@@ -6,118 +6,100 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/17 11:31:16 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:43 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-size_t	ft_strlen(const char *s)
+char *ft_strjoin(char *line, char *buffer)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-
-char *free_line(char *line)
-{
+    char *ptr;
+    int line_len;
+    int buff_len;
     int i;
     int j;
-    char *temp_buff;
-    char *new_line_sign;
 
-    i = 0;
-    j = 0;
-    while (line[i] && line[i] != '\n')
-        i++;
-    if (!line[i])
+    line_len = 0;
+    if (line)
     {
-        free(line);
-        return (NULL);
+        while (line[line_len])
+            line_len++;
     }
-    // new_line_sign = ft_strchr(line, '\n');
-    temp_buff = malloc(sizeof(char) * i + 2);
-    if (!temp_buff)
+    buff_len = 0;
+    while (buffer[buff_len] && buffer[buff_len] != '\n')
+        buff_len++;
+    ptr = malloc(sizeof(char) * (line_len + buff_len) + 1);
+    if (!ptr)
         return (NULL);
-    while (line[i])
+    i = 0;
+    if (line)
     {
-        i++;
-        temp_buff[j] = line[i];
+        while (line[i])
+        {
+            ptr[i] = line[i];
+            i++;
+        }
+    }
+    j = 0;
+    while (buffer[j] && buffer[j] != '\n')
+    {
+        ptr[i + j] = buffer[j];
         j++;
     }
-    temp_buff[j] = '\0';
-    free(line);
-    return (temp_buff);
+    ptr[i + j] = '\0';
+    if (line)
+        free(line);
+    return (ptr);
 }
 
-char *read_next_line(char *line)
+char *read_line(int fd)
 {
-    char *next_line;
+    char *buffer;
+    char *line = NULL;
+    int nbytes_read;
     int i;
+    int j;
 
-    if (!line[0])
+    buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
+    if (!buffer)
         return (NULL);
-    while (line[i] && line[i] != '\n')
-        i++;
-    next_line = malloc(sizeof(char) * (i + 2));
-    i = 0;
-    while (line[i] && line[i] != '\n')
+    while (!(ft_strchr(buffer, '\n')) && nbytes_read > 0)
     {
-        next_line[i] = line[i];
-        i++;
-    }
-    if (line[i] && line[i] == '\n')
-        line[i++] = '\n';
-    return (next_line);
-}
-
-char *read_first_line(int fd, char *line)
-{
-    char *buff;
-    int nbytes;
-
-    buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    if (buff == NULL)
-        return (NULL);
-    nbytes = 1;
-    while (!(ft_strchr(line, '\n')) && nbytes > 0)
-    {
-        nbytes = read(fd, buff, BUFFER_SIZE);
-        if (nbytes == -1)
+        nbytes_read = read(fd, buffer, BUFFER_SIZE);
+        if (nbytes_read < 0)
         {
-            free(line);
-            free(buff);
+            free(buffer);
             return (NULL);
         }
-        line = ft_strjoin(line, buff);
-        if (nbytes == 0)
+        else if (nbytes_read == 0)
+        {
+            free(buffer);
             break ;
-        if (!line)
-            return (NULL);
-        // printf("line: %s\n", line);
+        }
+        buffer[nbytes_read] = '\0';
+        i = 0;
+        line = ft_strjoin(line, buffer);
+        // printf("%s\n", line);
     }
-    free(buff);
+    printf("%s", line);
+    free(buffer);
     return (line);
 }
 
 char *get_next_line(int fd)
 {
-    static char *line = "";
-    char *next_line;
+    static char *remains = NULL;
+    char *buffer;
+    char *line;
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    line = read_first_line(fd, line);
+    buffer = read_line(fd);
     if (!line)
         return (NULL);
-    next_line = read_next_line(line);
-    line = free_line(line);
-    return (next_line);
+    return(buffer);
 }
 
 int main()
@@ -143,11 +125,11 @@ int main()
         perror("Error opening file");
         return (1);
     }
-    int n = 2;
+    int n = 1;
     while (n > 0)
     {
         s = get_next_line(fd);
-        printf("%s\n", s);
+        // printf("%s\n", s);
         // free(s);
         n--;
     }
