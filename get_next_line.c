@@ -6,14 +6,14 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/19 12:57:16 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/19 21:51:14 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char *extract_line_remains(char **remains)
+char *extract_line_remains(char **remains) // 01234567890123456$12345678$012 // 12345678$01234567890123456
 {
     char *line;
     char *newline_sign;
@@ -23,10 +23,12 @@ char *extract_line_remains(char **remains)
     
     if (!*remains)
         return (NULL);
-    newline_sign = ft_strchr(*remains, '\n');
+    newline_sign = ft_strchr(*remains, '\n'); // $12345678$012 // 12345678$
+    // printf("newline_sign: %s\n", newline_sign);
     if (newline_sign)
     {
-        line_len = newline_sign - *remains + 1;
+        line_len = newline_sign - *remains + 1; // $ - 0 == 17 + 1 = 18 // 9
+        // printf("line_len: %d\n", line_len);
         line = malloc(sizeof(char) * (line_len + 1));
         if (!line)
             return (NULL);
@@ -37,9 +39,18 @@ char *extract_line_remains(char **remains)
             i++;
         }
         line[line_len] = '\0';
-        temp = ft_strdup(newline_sign + 1);
+        temp = ft_strdup(newline_sign + 1); // 12345678$012 // 01234567890123456
+        // printf("temp: %s\n", temp);
         free(*remains);
-        *remains = temp;
+        if (*temp == '\0')
+        {
+            free(temp);
+            *remains = NULL;
+        }
+        else
+        {
+            *remains = temp;
+        } // 12345678$012 // 01234567890123456
     }
     else
     {
@@ -47,7 +58,7 @@ char *extract_line_remains(char **remains)
         free(*remains);
         *remains = NULL;
     }
-    return (line);
+    return (line); // 12345678$ // 01234567890123456
 }
 
 char *read_buffer(int fd, char **remains)
@@ -61,7 +72,8 @@ char *read_buffer(int fd, char **remains)
     nbytes_read = 1;
     while (nbytes_read > 0)
     {
-        nbytes_read = read(fd, buffer, BUFFER_SIZE);
+        nbytes_read = read(fd, buffer, BUFFER_SIZE); // 012345678901234 (15) // 56$12345678$012(15) // 34567890123456 (14)
+        // printf("nbytes_read: %d\n", nbytes_read);
         if (nbytes_read < 0)
         {
             free(buffer);
@@ -70,7 +82,8 @@ char *read_buffer(int fd, char **remains)
         if (nbytes_read == 0)
             break ;
         buffer[nbytes_read] = '\0';
-        *remains = ft_strjoin(*remains, buffer);
+        *remains = ft_strjoin(*remains, buffer); // 012345678901234 // 01234567890123456$12345678$012 // 12345678$01234567890123456
+        // printf("remains ft_strjoin: %s\n", *remains);
         if (!*remains)
         {
             free(buffer);
@@ -94,23 +107,23 @@ char *get_next_line(int fd)
     return (line);
 }
 
-// int main()
-// {
-//     char *s;
-//     int fd = open("42_with_nl", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (1);
-//     }
-//     int n = 1;
-//     while (n > 0)
-//     {
-//         s = get_next_line(fd);
-//         printf("%s\n", s);
-//         free(s);
-//         n--;
-//     }
-//     close(fd);
-//     return (0);
-// }
+int main()
+{
+    char *s;
+    int fd = open("42_with_nl", O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Error opening file");
+        return (1);
+    }
+    int n = 3;
+    while (n > 0)
+    {
+        s = get_next_line(fd);
+        printf("%s", s);
+        free(s);
+        n--;
+    }
+    close(fd);
+    return (0);
+}
