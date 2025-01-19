@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:58 by apple             #+#    #+#             */
-/*   Updated: 2025/01/19 00:13:06 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/19 09:45:23 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,29 @@ char *ft_strjoin(char *line, char *buffer)
     {
         ptr[i] = buffer[j];
         j++;
+        i++;
+    }
+    ptr[i] = '\0';
+    return (ptr);
+}
+
+char *ft_strdup(char *str)
+{
+    char *ptr;
+    int i;
+
+    i = 0;
+    if (!str)
+        return (NULL);
+    while (str[i])
+            i++;
+    ptr = malloc(sizeof(char) * (i + 1));
+    if (!ptr)
+        return (NULL);
+    i = 0;
+    while (str[i])
+    {
+        ptr[i] = str[i];
         i++;
     }
     ptr[i] = '\0';
