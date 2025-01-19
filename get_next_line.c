@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/19 21:51:14 by apple            ###   ########.fr       */
+/*   Updated: 2025/01/19 22:03:26 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,23 +107,23 @@ char *get_next_line(int fd)
     return (line);
 }
 
-int main()
-{
-    char *s;
-    int fd = open("42_with_nl", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Error opening file");
-        return (1);
-    }
-    int n = 3;
-    while (n > 0)
-    {
-        s = get_next_line(fd);
-        printf("%s", s);
-        free(s);
-        n--;
-    }
-    close(fd);
-    return (0);
-}
+// int main()
+// {
+//     char *s;
+//     int fd = open("get_next_line.txt", O_RDONLY);
+//     if (fd == -1)
+//     {
+//         perror("Error opening file");
+//         return (1);
+//     }
+//     int n = 3;
+//     while (n > 0)
+//     {
+//         s = get_next_line(fd);
+//         printf("%s", s);
+//         free(s);
+//         n--;
+//     }
+//     close(fd);
+//     return (0);
+// }
