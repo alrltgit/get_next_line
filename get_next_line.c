@@ -6,7 +6,7 @@
 /*   By: alraltse <alraltse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/01/20 16:59:19 by alraltse         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:53:33 by alraltse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*extract_line(char **remains)
 	return (fin_line);
 }
 
-char	*read_buffer(int fd, char **remains, char *buffer)
+char	*read_buffer(int fd, char *remains, char *buffer)
 {
 	int	nbytes_read;
 
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
 	if (!buffer)
 		return (NULL);
-	remains = read_buffer(fd, &remains, buffer);
+	remains = read_buffer(fd, *remains, buffer);
 	line = extract_line(&remains);
 	return (line);
 }
