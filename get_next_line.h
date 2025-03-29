@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:51 by apple             #+#    #+#             */
-/*   Updated: 2025/03/29 09:23:26 by apple            ###   ########.fr       */
+/*   Updated: 2025/03/29 09:28:19 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4

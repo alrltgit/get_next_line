@@ -6,7 +6,7 @@
 /*   By: apple <apple@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:54:55 by apple             #+#    #+#             */
-/*   Updated: 2025/03/29 09:23:19 by apple            ###   ########.fr       */
+/*   Updated: 2025/03/29 09:31:03 by apple            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,22 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <stdio.h>
-
-// int main()
+// int	main()
 // {
-//     char *s;
-//     int fd = open("get_next_line.txt", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (1);
-//     }
-//     while ((s = get_next_line(fd)) != NULL)
-//     {
-//         printf("%s", s);
-//         free(s);
-//     }
-//     close(fd);
-//     return (0);
+// 	char	*s;
+// 	int		fd;
+
+// 	fd = open("get_next_line.txt", O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		perror("Error opening file");
+// 		return (1);
+// 	}
+// 	while ((s = get_next_line(fd)) != NULL)
+// 	{
+// 		printf("%s", s);
+// 		free(s);
+// 	}
+// 	close(fd);
+// 	return (0);
 // }
